@@ -4,12 +4,14 @@ import com.example.doctor_book_app_backend.entity.Patient;
 import com.example.doctor_book_app_backend.repository.PatientRepository;
 import com.example.doctor_book_app_backend.request.patient.PatientReq;
 import com.example.doctor_book_app_backend.service.utils.UtilsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@Slf4j
 @Service
 public class PatientAuthServiceImpl implements PatientAuthService {
     private final PatientRepository patientRepository;
@@ -44,6 +46,18 @@ public class PatientAuthServiceImpl implements PatientAuthService {
                 .profilePicUrl(patientReq.getProfilePicUrl())
                 .bloodGroup(patientReq.getBloodGroup())
                 .build());
+    }
+
+    @Override
+    public Patient logginPatient(PatientReq patientReq) throws Exception {
+        Patient patient = patientRepository.findByEmail(patientReq.getEmail());
+        if(patient == null) {
+            throw new RuntimeException("Invalid email");
+        }
+        if(!passwordEncoder.matches(patientReq.getPassword(), patient.getPassword())) {
+            throw new Exception("Invalid password");
+        }
+        return patient;
     }
 
 

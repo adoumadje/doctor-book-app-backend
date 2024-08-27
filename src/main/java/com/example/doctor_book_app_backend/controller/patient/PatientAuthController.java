@@ -25,4 +25,9 @@ public class PatientAuthController {
     public Patient registerPatient(@RequestBody PatientReq patient) throws IOException {
         return authService.registerPatient(patient);
     }
+
+    @PostMapping("/loggin-patient")
+    public Patient logginPatient(@RequestBody PatientReq patientReq) throws Exception {
+        return authService.logginPatient(patientReq);
+    }
 }

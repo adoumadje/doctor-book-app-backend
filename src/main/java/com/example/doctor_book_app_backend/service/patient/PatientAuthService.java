@@ -7,4 +7,6 @@ import java.io.IOException;
 
 public interface PatientAuthService {
     Patient registerPatient(PatientReq patient) throws IOException;
+
+    Patient logginPatient(PatientReq patientReq) throws Exception;
 }
