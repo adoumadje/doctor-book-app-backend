@@ -40,4 +40,6 @@ public class Doctor extends User {
     List<Experience> experiences;
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     List<TimeSlot> timeSlots;
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Review> reviews;
 }
