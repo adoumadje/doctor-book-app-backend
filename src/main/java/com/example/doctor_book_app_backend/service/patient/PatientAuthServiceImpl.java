@@ -3,13 +3,18 @@ package com.example.doctor_book_app_backend.service.patient;
 import com.example.doctor_book_app_backend.entity.Patient;
 import com.example.doctor_book_app_backend.repository.PatientRepository;
 import com.example.doctor_book_app_backend.request.patient.PatientReq;
+import com.example.doctor_book_app_backend.service.utils.TokenService;
 import com.example.doctor_book_app_backend.service.utils.UtilsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -17,14 +22,17 @@ public class PatientAuthServiceImpl implements PatientAuthService {
     private final PatientRepository patientRepository;
     private final UtilsService utilsService;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
     @Autowired
     public PatientAuthServiceImpl(PatientRepository patientRepository,
                                   UtilsService utilsService,
-                                  PasswordEncoder passwordEncoder) {
+                                  PasswordEncoder passwordEncoder,
+                                  TokenService tokenService) {
         this.patientRepository = patientRepository;
         this.utilsService = utilsService;
         this.passwordEncoder = passwordEncoder;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -49,7 +57,8 @@ public class PatientAuthServiceImpl implements PatientAuthService {
     }
 
     @Override
-    public Patient logginPatient(PatientReq patientReq) throws Exception {
+    public Map<String, String> logginPatient(Authentication authentication,
+                                             PatientReq patientReq) throws Exception {
         Patient patient = patientRepository.findByEmail(patientReq.getEmail());
         if(patient == null) {
             throw new RuntimeException("Invalid email");
@@ -57,7 +66,11 @@ public class PatientAuthServiceImpl implements PatientAuthService {
         if(!passwordEncoder.matches(patientReq.getPassword(), patient.getPassword())) {
             throw new Exception("Invalid password");
         }
-        return patient;
+        Map<String, String> response = new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.put("patient", objectMapper.writeValueAsString(patient));
+        response.put("token", tokenService.generateToken(authentication));
+        return response;
     }
 
 
