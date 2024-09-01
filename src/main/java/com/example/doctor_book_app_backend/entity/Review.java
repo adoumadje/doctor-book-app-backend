@@ -27,7 +27,7 @@ public class Review {
     @Column(name = "date")
     private Date date;
     @Column(name = "rating")
-    private int rating;
+    private Float rating;
     @Column(name = "comment")
     private String comment;
 }
