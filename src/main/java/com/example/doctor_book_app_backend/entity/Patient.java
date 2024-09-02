@@ -24,4 +24,6 @@ public class Patient extends User {
     private BloodGroup bloodGroup;
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Review> reviews;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Appointment> appointments;
 }
