@@ -1,6 +1,7 @@
 package com.example.doctor_book_app_backend.service.doctor;
 
 import com.example.doctor_book_app_backend.entity.Doctor;
+import com.example.doctor_book_app_backend.enums.Status;
 import com.example.doctor_book_app_backend.repository.DoctorRepository;
 import com.example.doctor_book_app_backend.request.doctor.DoctorReq;
 import com.example.doctor_book_app_backend.service.utils.TokenService;
@@ -62,6 +63,7 @@ public class DoctorAuthServiceImpl implements DoctorAuthService {
                 .about(doctorReq.getAbout())
                 .specialisation(doctorReq.getSpecialisation())
                 .ticketPrice(doctorReq.getTicketPrice())
+                .status(Status.PENDING)
                 .educations(doctorReq.getEducations())
                 .experiences(doctorReq.getExperiences())
                 .timeSlots(doctorReq.getTimeSlots())

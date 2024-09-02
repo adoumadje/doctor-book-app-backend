@@ -1,6 +1,7 @@
 package com.example.doctor_book_app_backend.entity;
 
 import com.example.doctor_book_app_backend.enums.Specialisation;
+import com.example.doctor_book_app_backend.enums.Status;
 import com.example.doctor_book_app_backend.general.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,8 @@ public class Doctor extends User {
     private Specialisation specialisation;
     @Column(name = "ticket_price")
     private Integer ticketPrice;
+    @Column(name = "status")
+    private Status status;
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Education> educations;
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
