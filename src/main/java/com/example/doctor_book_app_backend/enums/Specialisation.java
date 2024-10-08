@@ -10,7 +10,7 @@ public enum Specialisation {
     OTOLOGIST("Otologist"),
     NEUROLOGIST("Neurologist"),
     GENERAL_DOCTOR("General Doctor"),
-    SURGON("Surgon"),
+    SURGEON("Surgeon"),
     PSYCHOTHERAPIST("Psychotherapist"),
     EYE_SPECIALIST("Eye Specialist");
 
