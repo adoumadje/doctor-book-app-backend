@@ -8,6 +8,7 @@ public enum Specialisation {
     CARDIOLOGIST("Cardiologist"),
     ORTHOPEDIST("Orthopedist"),
     OTOLOGIST("Otologist"),
+    NEUROLOGIST("Neurologist"),
     GENERAL_DOCTOR("General Doctor"),
     SURGON("Surgon"),
     PSYCHOTHERAPIST("Psychotherapist"),
