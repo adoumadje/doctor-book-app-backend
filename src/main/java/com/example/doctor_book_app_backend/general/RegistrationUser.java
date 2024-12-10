@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class RegistrationUser {
-    private String fullName;
+    private String fullname;
     private String email;
     private String password;
     private Gender gender;

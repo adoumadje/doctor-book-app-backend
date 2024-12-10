@@ -10,5 +10,5 @@ import java.util.Map;
 public interface PatientAuthService {
     Patient registerPatient(PatientReq patient) throws IOException;
 
-    Map<String, String> logginPatient(Authentication authentication, PatientReq patientReq) throws Exception;
+    Map<String, String> logginPatient(Authentication authentication) throws Exception;
 }

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public interface DoctorAuthService {
-    Doctor registerDoctor(DoctorReq doctorReq) throws IOException;
+    Doctor registerDoctor(DoctorReq doctorReq) throws IOException, Exception;
 
-    Map<String, String> logginDoctor(Authentication authentication, DoctorReq doctorReq) throws Exception;
+    Map<String, String> logginDoctor(Authentication authentication) throws Exception;
 }

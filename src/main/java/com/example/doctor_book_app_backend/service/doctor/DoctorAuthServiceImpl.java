@@ -1,8 +1,10 @@
 package com.example.doctor_book_app_backend.service.doctor;
 
 import com.example.doctor_book_app_backend.entity.Doctor;
+import com.example.doctor_book_app_backend.entity.Patient;
 import com.example.doctor_book_app_backend.enums.Status;
 import com.example.doctor_book_app_backend.repository.DoctorRepository;
+import com.example.doctor_book_app_backend.repository.PatientRepository;
 import com.example.doctor_book_app_backend.request.doctor.DoctorReq;
 import com.example.doctor_book_app_backend.service.utils.TokenService;
 import com.example.doctor_book_app_backend.service.utils.UtilsService;
@@ -14,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,23 +23,26 @@ import java.util.Map;
 @Service
 public class DoctorAuthServiceImpl implements DoctorAuthService {
     private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
     private final UtilsService utilsService;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
     @Autowired
     public DoctorAuthServiceImpl(DoctorRepository doctorRepository,
+                                 PatientRepository patientRepository,
                                  UtilsService utilsService,
                                  PasswordEncoder passwordEncoder,
                                  TokenService tokenService) {
         this.doctorRepository = doctorRepository;
+        this.patientRepository = patientRepository;
         this.utilsService = utilsService;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
     }
 
     @Override
-    public Doctor registerDoctor(DoctorReq doctorReq) throws IOException {
+    public Doctor registerDoctor(DoctorReq doctorReq) throws Exception {
         if(doctorReq.getProfilePicture() != null) {
             doctorReq.setProfilePicUrl(
                     utilsService.saveProfilePicture(
@@ -47,9 +51,14 @@ public class DoctorAuthServiceImpl implements DoctorAuthService {
             );
         }
         String[] firstLast = utilsService.toFirstAndLastNames(
-                doctorReq.getFullName()
+                doctorReq.getFullname()
         );
-        return doctorRepository.save(Doctor.builder()
+        Doctor doctor = doctorRepository.findByEmail(doctorReq.getEmail());
+        Patient patient = patientRepository.findByEmail(doctorReq.getEmail());
+        if(doctor != null || patient != null) {
+            throw new  RuntimeException("User already exist");
+        }
+        doctor = doctorRepository.save(Doctor.builder()
                 .firstName(firstLast[0])
                 .lastName(firstLast[1])
                 .email(doctorReq.getEmail())
@@ -68,20 +77,15 @@ public class DoctorAuthServiceImpl implements DoctorAuthService {
                 .experiences(doctorReq.getExperiences())
                 .timeSlots(doctorReq.getTimeSlots())
                 .build());
+
+        return doctor;
     }
 
     @Override
     @Transactional
-    public Map<String, String> logginDoctor(Authentication authentication,
-                                            DoctorReq doctorReq) throws Exception {
-        Doctor doctor = doctorRepository.findByEmail(doctorReq.getEmail());
+    public Map<String, String> logginDoctor(Authentication authentication) throws Exception {
+        Doctor doctor = doctorRepository.findByEmail(authentication.getName());
         log.info("doctor = " + doctor.toString());
-        if(doctor == null) {
-            throw new RuntimeException("Invalid email");
-        }
-        if(!passwordEncoder.matches(doctorReq.getPassword(), doctor.getPassword())) {
-            throw new Exception("Invalid password");
-        }
         Map<String, String> response = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         response.put("doctor", objectMapper.writeValueAsString(doctor));

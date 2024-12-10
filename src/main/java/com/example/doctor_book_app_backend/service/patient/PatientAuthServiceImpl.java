@@ -37,7 +37,7 @@ public class PatientAuthServiceImpl implements PatientAuthService {
 
     @Override
     public Patient registerPatient(PatientReq patientReq) throws IOException {
-        String[] firstLast = utilsService.toFirstAndLastNames(patientReq.getFullName());
+        String[] firstLast = utilsService.toFirstAndLastNames(patientReq.getFullname());
         if(patientReq.getProfilePicture() != null) {
             patientReq.setProfilePicUrl(
                     utilsService.saveProfilePicture(
@@ -57,15 +57,8 @@ public class PatientAuthServiceImpl implements PatientAuthService {
     }
 
     @Override
-    public Map<String, String> logginPatient(Authentication authentication,
-                                             PatientReq patientReq) throws Exception {
-        Patient patient = patientRepository.findByEmail(patientReq.getEmail());
-        if(patient == null) {
-            throw new RuntimeException("Invalid email");
-        }
-        if(!passwordEncoder.matches(patientReq.getPassword(), patient.getPassword())) {
-            throw new Exception("Invalid password");
-        }
+    public Map<String, String> logginPatient(Authentication authentication) throws Exception {
+        Patient patient = patientRepository.findByEmail(authentication.getName());
         Map<String, String> response = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         response.put("patient", objectMapper.writeValueAsString(patient));

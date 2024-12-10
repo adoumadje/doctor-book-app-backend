@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/doctor")
+@RequestMapping("/api/v1/doctor/")
 public class DoctorAuthController {
     private final DoctorAuthService doctorAuthService;
 
@@ -23,14 +22,13 @@ public class DoctorAuthController {
         this.doctorAuthService = doctorAuthService;
     }
 
-    @PostMapping("/register-doctor")
-    public Doctor registerDoctor(@RequestBody DoctorReq doctorReq) throws IOException {
+    @PostMapping("register-doctor")
+    public Doctor registerDoctor(@RequestBody DoctorReq doctorReq) throws Exception {
         return doctorAuthService.registerDoctor(doctorReq);
     }
 
-    @PostMapping("/loggin-doctor")
-    public Map<String, String> logginDoctor(Authentication authentication,
-                                            @RequestBody DoctorReq doctorReq) throws Exception {
-        return doctorAuthService.logginDoctor(authentication, doctorReq);
+    @PostMapping("login-doctor")
+    public Map<String, String> logginDoctor(Authentication authentication) throws Exception {
+        return doctorAuthService.logginDoctor(authentication);
     }
 }
