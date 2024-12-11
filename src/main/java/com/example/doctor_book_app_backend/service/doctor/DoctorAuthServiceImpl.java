@@ -43,13 +43,6 @@ public class DoctorAuthServiceImpl implements DoctorAuthService {
 
     @Override
     public Doctor registerDoctor(DoctorReq doctorReq) throws Exception {
-        if(doctorReq.getProfilePicture() != null) {
-            doctorReq.setProfilePicUrl(
-                    utilsService.saveProfilePicture(
-                            doctorReq.getProfilePicture()
-                    )
-            );
-        }
         String[] firstLast = utilsService.toFirstAndLastNames(
                 doctorReq.getFullname()
         );

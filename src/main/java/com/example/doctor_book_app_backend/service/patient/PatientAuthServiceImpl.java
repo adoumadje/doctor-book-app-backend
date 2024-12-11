@@ -38,11 +38,6 @@ public class PatientAuthServiceImpl implements PatientAuthService {
     @Override
     public Patient registerPatient(PatientReq patientReq) throws IOException {
         String[] firstLast = utilsService.toFirstAndLastNames(patientReq.getFullname());
-        if(patientReq.getProfilePicture() != null) {
-            patientReq.setProfilePicUrl(
-                    utilsService.saveProfilePicture(
-                            patientReq.getProfilePicture()));
-        }
         return patientRepository.save(Patient.builder()
                 .firstName(firstLast[0])
                 .lastName(firstLast[1])

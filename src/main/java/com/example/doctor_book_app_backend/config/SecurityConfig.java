@@ -68,7 +68,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers("/api/v1/patient/register-patient",
-                                        "/api/v1/doctor/register-doctor").permitAll()
+                                        "/api/v1/doctor/register-doctor",
+                                        "/uploads/**").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
