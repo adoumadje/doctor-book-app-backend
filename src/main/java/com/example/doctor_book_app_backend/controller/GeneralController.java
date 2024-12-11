@@ -24,7 +24,7 @@ public class GeneralController {
     public String uploadProfilePic(@RequestParam("file")MultipartFile file,
                                    HttpServletRequest request
     ) throws IOException {
-        String protocol = request.getProtocol();
+        String protocol = "http";
         String host = request.getServerName();
         int port = request.getServerPort();
 

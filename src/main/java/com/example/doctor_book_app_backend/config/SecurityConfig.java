@@ -69,6 +69,7 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers("/api/v1/patient/register-patient",
                                         "/api/v1/doctor/register-doctor",
+                                        "/api/v1/general/upload-profile-pic",
                                         "/uploads/**").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(session ->

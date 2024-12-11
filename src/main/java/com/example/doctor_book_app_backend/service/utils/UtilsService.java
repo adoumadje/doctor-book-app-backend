@@ -14,7 +14,8 @@ import java.io.IOException;
 public class UtilsService {
 
     private final ImageDataRepository imageDataRepository;
-    private final String DIR_PATH = "src/main/resources/static/uploads/";
+    private final String DIR_PATH = "C:\\Users\\adoum\\Documents\\Portfolio Projects" +
+            "\\Doctor Booking App\\doctor-book-app-backend\\src\\main\\resources\\static\\uploads\\";
 
     @Autowired
     public UtilsService(ImageDataRepository imageDataRepository) {
