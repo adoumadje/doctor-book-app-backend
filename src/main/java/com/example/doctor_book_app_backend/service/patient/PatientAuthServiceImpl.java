@@ -1,6 +1,8 @@
 package com.example.doctor_book_app_backend.service.patient;
 
+import com.example.doctor_book_app_backend.entity.Doctor;
 import com.example.doctor_book_app_backend.entity.Patient;
+import com.example.doctor_book_app_backend.repository.DoctorRepository;
 import com.example.doctor_book_app_backend.repository.PatientRepository;
 import com.example.doctor_book_app_backend.request.patient.PatientReq;
 import com.example.doctor_book_app_backend.service.utils.TokenService;
@@ -20,16 +22,19 @@ import java.util.Map;
 @Service
 public class PatientAuthServiceImpl implements PatientAuthService {
     private final PatientRepository patientRepository;
+    private final DoctorRepository doctorRepository;
     private final UtilsService utilsService;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
     @Autowired
     public PatientAuthServiceImpl(PatientRepository patientRepository,
+                                  DoctorRepository doctorRepository,
                                   UtilsService utilsService,
                                   PasswordEncoder passwordEncoder,
                                   TokenService tokenService) {
         this.patientRepository = patientRepository;
+        this.doctorRepository = doctorRepository;
         this.utilsService = utilsService;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
@@ -38,6 +43,11 @@ public class PatientAuthServiceImpl implements PatientAuthService {
     @Override
     public Patient registerPatient(PatientReq patientReq) throws IOException {
         String[] firstLast = utilsService.toFirstAndLastNames(patientReq.getFullname());
+        Doctor doctor = doctorRepository.findByEmail(patientReq.getEmail());
+        Patient patient = patientRepository.findByEmail(patientReq.getEmail());
+        if(doctor != null || patient != null) {
+            throw new  RuntimeException("User already exist");
+        }
         return patientRepository.save(Patient.builder()
                 .firstName(firstLast[0])
                 .lastName(firstLast[1])
