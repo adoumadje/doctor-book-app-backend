@@ -27,7 +27,6 @@ public class PatientAuthController {
 
     @PostMapping("register-patient")
     public Patient registerPatient(@RequestBody PatientReq patient) throws IOException {
-        log.info("patient try to register:" + patient.getFullname() );
         return authService.registerPatient(patient);
     }
 

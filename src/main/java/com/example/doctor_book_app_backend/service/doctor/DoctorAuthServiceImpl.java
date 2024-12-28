@@ -3,6 +3,7 @@ package com.example.doctor_book_app_backend.service.doctor;
 import com.example.doctor_book_app_backend.entity.Doctor;
 import com.example.doctor_book_app_backend.entity.Patient;
 import com.example.doctor_book_app_backend.enums.Status;
+import com.example.doctor_book_app_backend.enums.UserRole;
 import com.example.doctor_book_app_backend.repository.DoctorRepository;
 import com.example.doctor_book_app_backend.repository.PatientRepository;
 import com.example.doctor_book_app_backend.request.doctor.DoctorReq;
@@ -66,6 +67,7 @@ public class DoctorAuthServiceImpl implements DoctorAuthService {
                 .specialisation(doctorReq.getSpecialisation())
                 .ticketPrice(doctorReq.getTicketPrice())
                 .status(Status.PENDING)
+                .userRole(UserRole.DOCTOR)
                 .educations(doctorReq.getEducations())
                 .experiences(doctorReq.getExperiences())
                 .timeSlots(doctorReq.getTimeSlots())
@@ -78,6 +80,9 @@ public class DoctorAuthServiceImpl implements DoctorAuthService {
     @Transactional
     public Map<String, String> logginDoctor(Authentication authentication) throws Exception {
         Doctor doctor = doctorRepository.findByEmail(authentication.getName());
+        if(doctor == null) {
+            throw new RuntimeException("Doctor not found");
+        }
         log.info("doctor = " + doctor.toString());
         Map<String, String> response = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();

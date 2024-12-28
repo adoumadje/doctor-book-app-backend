@@ -38,16 +38,6 @@ public class SecurityConfig {
         this.failureHandler = failureHandler;
     }
 
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsManager() {
-//        UserDetails userDetails = User.builder()
-//                .username("admin")
-//                .password("$2a$10$SxLk9ahzQdHA54o9i6pI/OWoMi07dHH1zLYf2MQeO3XRMc2gt7KRq")
-//                .authorities("create", "read", "update", "delete")
-//                .build();
-//        return new InMemoryUserDetailsManager(userDetails);
-//    }
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

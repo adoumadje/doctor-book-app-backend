@@ -2,6 +2,7 @@ package com.example.doctor_book_app_backend.service.patient;
 
 import com.example.doctor_book_app_backend.entity.Doctor;
 import com.example.doctor_book_app_backend.entity.Patient;
+import com.example.doctor_book_app_backend.enums.UserRole;
 import com.example.doctor_book_app_backend.repository.DoctorRepository;
 import com.example.doctor_book_app_backend.repository.PatientRepository;
 import com.example.doctor_book_app_backend.request.patient.PatientReq;
@@ -56,6 +57,7 @@ public class PatientAuthServiceImpl implements PatientAuthService {
                         passwordEncoder.encode(patientReq.getPassword())
                 )
                 .gender(patientReq.getGender())
+                .userRole(UserRole.PATIENT)
                 .profilePicUrl(patientReq.getProfilePicUrl())
                 .bloodGroup(patientReq.getBloodGroup())
                 .build());
@@ -64,6 +66,9 @@ public class PatientAuthServiceImpl implements PatientAuthService {
     @Override
     public Map<String, String> logginPatient(Authentication authentication) throws Exception {
         Patient patient = patientRepository.findByEmail(authentication.getName());
+        if(patient == null) {
+            throw new RuntimeException("User not found");
+        }
         Map<String, String> response = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         response.put("patient", objectMapper.writeValueAsString(patient));

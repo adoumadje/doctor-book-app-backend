@@ -1,6 +1,7 @@
 package com.example.doctor_book_app_backend.general;
 
 import com.example.doctor_book_app_backend.enums.Gender;
+import com.example.doctor_book_app_backend.enums.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
@@ -27,4 +28,6 @@ public class User {
     private Gender gender;
     @Column(name = "profile_picture_url")
     private String profilePicUrl;
+    @Column(name = "user_role")
+    private UserRole userRole;
 }
