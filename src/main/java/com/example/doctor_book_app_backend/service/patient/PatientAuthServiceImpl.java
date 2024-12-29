@@ -49,13 +49,16 @@ public class PatientAuthServiceImpl implements PatientAuthService {
         if(doctor != null || patient != null) {
             throw new  RuntimeException("User already exist");
         }
+        if(patientReq.getProfilePicUrl() == null) {
+            patientReq.setProfilePicUrl("https://images.freeimages.com/image/previews/" +
+                    "374/instabutton-png-design-5690390.png");
+        }
         return patientRepository.save(Patient.builder()
                 .firstName(firstLast[0])
                 .lastName(firstLast[1])
                 .email(patientReq.getEmail())
-                .password(
-                        passwordEncoder.encode(patientReq.getPassword())
-                )
+                .password(passwordEncoder
+                        .encode(patientReq.getPassword()))
                 .gender(patientReq.getGender())
                 .userRole(UserRole.PATIENT)
                 .profilePicUrl(patientReq.getProfilePicUrl())

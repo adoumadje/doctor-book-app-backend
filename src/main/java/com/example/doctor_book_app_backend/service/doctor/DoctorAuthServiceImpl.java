@@ -52,6 +52,10 @@ public class DoctorAuthServiceImpl implements DoctorAuthService {
         if(doctor != null || patient != null) {
             throw new  RuntimeException("User already exist");
         }
+        if(doctorReq.getProfilePicUrl() == null) {
+            doctorReq.setProfilePicUrl("https://images.freeimages.com/image/previews/" +
+                    "374/instabutton-png-design-5690390.png");
+        }
         doctor = doctorRepository.save(Doctor.builder()
                 .firstName(firstLast[0])
                 .lastName(firstLast[1])
