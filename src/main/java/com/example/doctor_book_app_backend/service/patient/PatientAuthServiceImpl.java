@@ -74,7 +74,7 @@ public class PatientAuthServiceImpl implements PatientAuthService {
         }
         Map<String, String> response = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        response.put("patient", objectMapper.writeValueAsString(patient));
+        response.put("user", objectMapper.writeValueAsString(patient));
         response.put("token", tokenService.generateToken(authentication));
         return response;
     }

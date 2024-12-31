@@ -90,7 +90,7 @@ public class DoctorAuthServiceImpl implements DoctorAuthService {
         log.info("doctor = " + doctor.toString());
         Map<String, String> response = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
-        response.put("doctor", objectMapper.writeValueAsString(doctor));
+        response.put("user", objectMapper.writeValueAsString(doctor));
         response.put("token", tokenService.generateToken(authentication));
         return response;
     }
