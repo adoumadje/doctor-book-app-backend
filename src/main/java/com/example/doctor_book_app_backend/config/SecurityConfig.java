@@ -60,7 +60,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/patient/register-patient",
                                         "/api/v1/doctor/register-doctor",
                                         "/api/v1/general/upload-profile-pic",
-                                        "/uploads/**").permitAll()
+                                        "/api/v1/general/get-FAQs").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

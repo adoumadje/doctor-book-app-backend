@@ -1,9 +1,11 @@
 package com.example.doctor_book_app_backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "admin")
+@Data
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

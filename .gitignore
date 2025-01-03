@@ -34,3 +34,6 @@ build/
 
 ### Resources ###
 resources/certs
+
+### Crredentials ###
+credentials.json

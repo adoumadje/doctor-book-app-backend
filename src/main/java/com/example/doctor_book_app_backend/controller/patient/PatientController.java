@@ -2,6 +2,7 @@ package com.example.doctor_book_app_backend.controller.patient;
 
 import com.example.doctor_book_app_backend.entity.Appointment;
 import com.example.doctor_book_app_backend.entity.Review;
+import com.example.doctor_book_app_backend.entity.Testimony;
 import com.example.doctor_book_app_backend.service.patient.PatientService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,5 +26,10 @@ public class PatientController {
     @PostMapping("book-appointment")
     public Appointment bookAppointment(@RequestBody Appointment appointment) {
         return patientService.bookAppointment(appointment);
+    }
+
+    @PostMapping("send-feedback")
+    public Testimony sendFeedback(@RequestBody Testimony testimony) {
+        return patientService.sendFeedback(testimony);
     }
 }

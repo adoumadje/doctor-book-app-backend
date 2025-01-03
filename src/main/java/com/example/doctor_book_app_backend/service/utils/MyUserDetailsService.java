@@ -1,7 +1,9 @@
 package com.example.doctor_book_app_backend.service.utils;
 
+import com.example.doctor_book_app_backend.entity.Admin;
 import com.example.doctor_book_app_backend.general.User;
 import com.example.doctor_book_app_backend.general.UserPrincipal;
+import com.example.doctor_book_app_backend.repository.AdminRepository;
 import com.example.doctor_book_app_backend.repository.DoctorRepository;
 import com.example.doctor_book_app_backend.repository.PatientRepository;
 import jakarta.transaction.Transactional;
@@ -16,11 +18,14 @@ import org.springframework.stereotype.Service;
 public class MyUserDetailsService implements UserDetailsService {
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
+    private final AdminRepository adminRepository;
 
     public MyUserDetailsService(DoctorRepository doctorRepository,
-                                PatientRepository patientRepository) {
+                                PatientRepository patientRepository,
+                                AdminRepository adminRepository) {
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
+        this.adminRepository = adminRepository;
     }
 
     @Override
@@ -31,7 +36,14 @@ public class MyUserDetailsService implements UserDetailsService {
             user = doctorRepository.findByEmail(username);
         }
         if(user == null) {
-            throw new UsernameNotFoundException("user not found");
+            Admin admin = adminRepository.findByUsername(username);
+            if (admin == null) {
+                throw new UsernameNotFoundException("user not found");
+            }
+            user = new User().builder()
+                    .email(admin.getUsername())
+                    .password(admin.getPassword())
+                    .build();
         }
         return new UserPrincipal(user);
     }
