@@ -4,11 +4,13 @@ import com.example.doctor_book_app_backend.entity.Appointment;
 import com.example.doctor_book_app_backend.entity.Review;
 import com.example.doctor_book_app_backend.entity.Testimony;
 import com.example.doctor_book_app_backend.service.patient.PatientService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/patient/")
 public class PatientController {
